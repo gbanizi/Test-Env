@@ -1,1 +1,3 @@
-my test DevOps lab - Tue Oct 20 08:45:15 UTC 2026
+DevOps Lab Environment Validation - Ubuntu 24.04 LTS | Azure Codespaces
+Date: Tue Oct 20 08:45:15 UTC 2026
+Status: Lab 01 - Linux & Git operational
