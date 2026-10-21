@@ -1,1 +1,1 @@
-devtools, terraform, kubernetes
+terraform, kubernetes, docker, containerization, bash-scripting, CI/CD
