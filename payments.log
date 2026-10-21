@@ -3,3 +3,4 @@
 10:02 FAILED id=1003 user=carol amount=500 reason=insufficient_funds
 10:03 SUCCESS id=1004 user=dave amount=20
 10:04 FAILED id=1005 user=alice amount=300 reason=timeout
+10:05 FAILED id=1006 user=alice amount=100 reason=timeout
