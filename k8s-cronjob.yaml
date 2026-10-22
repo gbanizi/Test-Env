@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: fintech-monitor-cron
+  labels:
+    app: fraud-detection
+    team: devops-leeds
+spec:
+  schedule: "* * * * *"  # Every minute — cron format: minute hour day month weekday
+  concurrencyPolicy: Forbid  # Don't run 2 monitors at same time if one is slow
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: fintech-monitor
+            image: fintech-monitor:v1
+            imagePullPolicy: Never  # Use local image we built on Day 5, don't try DockerHub
+            command: ["/bin/bash"]
+            args: ["-c", "./monitor.sh && cat alerts.log && echo '---K8S CHECK DONE---'"]
+          restartPolicy: OnFailure
