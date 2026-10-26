@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fintech-monitor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fintech-monitor
+  template:
+    metadata:
+      labels:
+        app: fintech-monitor
+    spec:
+      containers:
+      - name: monitor
+        image: fintech-monitor:v1
+        imagePullPolicy: Never
+        command: ["/bin/bash"]
+        args: ["-c", "while true; do ./monitor.sh; sleep 60; done"]
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: fintech-monitor-cron
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: monitor
+            image: fintech-monitor:v1
+            imagePullPolicy: Never
+            command: ["/app/monitor.sh"]
+          restartPolicy: OnFailure
