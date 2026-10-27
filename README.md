@@ -47,9 +47,4 @@ Alice failed: 2
 CRITICAL: High failure rate - 4 failures detected at Mon Oct 26 19:56:42 UTC 2026
 FRAUD_CHECK: user alice has 2 failures - review at Mon Oct 26 19:56:42 UTC 2026That is the app working inside K3s. Deployment Running + CronJob completing every 5 minutes.
 Git:
-k8s/deployment.yaml already pushed, branch main up to date. Only leftover sys-info.txt should be gitignored.
-Commands for Final Submission Video:bashsudo k3s kubectl get nodes
-sudo k3s kubectl get deployment fintech-monitor
-sudo k3s kubectl get pods
-sudo k3s kubectl get cronjob fintech-monitor-cron
-sudo k3s kubectl logs -l app=fintech-monitor --tail=20
+k8s/deployment.yaml already pushed, branch main up to date.
