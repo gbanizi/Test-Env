@@ -12,13 +12,16 @@ Part of DevOps Foundations - Linux & Git Module.
 
 Day 7 Goal: Deploy fintech-monitor on K3s + CronJob + Jenkins pipeline
 Initial Setup:
-Project: Test-Env in GitHub CodespacesApp: fintech-monitor:v1 (Python - fraud checks, CRITICAL logs)K8s manifests: k8s/deployment.yaml (Deployment + CronJob _/5 _ _ _ *)Jenkinsfile building Docker image + kubectl applyPhase 1: K3s wouldn't start
+Project: Test-Env in GitHub CodespacesApp: fintech-monitor:v1 (Python - fraud checks, CRITICAL logs)K8s manifests: k8s/deployment.yaml (Deployment + CronJob _/5 _ _ _ *)Jenkinsfile building Docker image + kubectl apply
+
+Phase 1: K3s wouldn't start
 Error 1: kubectl get nodes -> hudson.model.Hudson.Read
 Cause: KUBECONFIG was pointing to Jenkins' kube configFix: Must use sudo k3s kubectl not plain kubectlError 2: sudo k3s server -> overlayfs check failed + operation not permitted
 Cause: Codespaces doesn't allow overlayfs inside containerdWe tried: --snapshotter=fuse-overlayfs Error 2b: mount.fuse3: executable file not foundReal fix that worked:bashsudo pkill -9 k3s
 sudo rm -rf /var/lib/rancher/k3s/agent/containerd
 sudo nohup k3s server --snapshotter=native --write-kubeconfig-mode 644 --disable traefik --disable metrics-server > /tmp/k3s.log 2>&1 &native is slow but it's the only snapshotter that works in Codespaces.
 Result: sudo k3s kubectl get nodes -> Ready
+
 Phase 2: Deployment applied but Pod stuckbashsudo k3s kubectl apply -f k8s/deployment.yaml --validate=false
 # deployment.apps/fintech-monitor created
 # cronjob.batch/fintech-monitor-cron createdBut:
